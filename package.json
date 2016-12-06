@@ -20,6 +20,7 @@
   },
   "homepage": "https://github.com/brucewpaul/hrsf50-mvp#readme",
   "dependencies": {
+    "auth0-lock": "^10.7.2",
     "body-parser": "^1.15.2",
     "bootstrap": "^4.0.0-alpha.2",
     "express": "^4.14.0",

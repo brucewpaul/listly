@@ -8,7 +8,8 @@ class SingleListPage extends React.Component {
     super(props);
 
     this.state = {
-      currentList: null
+      currentList: null,
+      isUserList: false
     }
   }
 
@@ -20,7 +21,16 @@ class SingleListPage extends React.Component {
       success: function(data) {
         self.setState({
           currentList: data[0]
-        })
+        });
+        self.props.lock.getProfile(self.props.idToken, function (err, profile) {
+          if (err) {
+            console.log("Error loading the Profile", err);
+            return;
+          }
+          if ( data[0].id === profile.email ) {
+            self.setState({isUserList: true});
+          }
+        });
       }
     })
   }
@@ -28,7 +38,8 @@ class SingleListPage extends React.Component {
   render() {
     return (
       <div>
-        <Link to={`/list/${this.props.params.id}/edit`}>Edit list</Link>
+        {this.state.isUserList ? (<Link to={`/list/${this.props.params.id}/edit`}>Edit list</Link>) : null }
+
         {this.state.currentList !== null ? <SingleList listItem={this.state.currentList} /> : null}
       </div>
     )

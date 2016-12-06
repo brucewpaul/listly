@@ -1,0 +1,16 @@
+- Validation
+  - Form Vaildation
+  - Correct urls, etc..
+
+- Users
+  - X Authentication
+  - X Show a users lists
+  - be able to favorite other people's lists
+    - see the lists that you have favorited
+
+- Lists
+  - Clean up style and layout
+  - Ability to break down into different 'categories'
+  - tie in some apis that can populate a users based on medium and show additional info
+
+- DRY the Code

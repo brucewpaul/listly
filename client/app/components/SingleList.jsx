@@ -6,6 +6,7 @@ import ItemList from './ItemList.jsx'
 var SingleList = (props) => (
   <div className="single-list-item">
     <h1><Link to={`/list/${props.listItem._id}`}>{props.listItem.title}</Link></h1>
+    <Link to={`/user/${props.listItem.id}`}><small>{props.listItem.id}</small></Link>
     <p>{props.listItem.description}</p>
     {props.listItem.items.length !== 0 ? <ItemList items={props.listItem.items} /> : null}
   </div>

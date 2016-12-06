@@ -8,6 +8,7 @@ var Router = require('react-router')
 mongoose.connect('mongodb://localhost/listly');
 
 var listController = require ('./lists/listController.js');
+var userController = require ('./lists/userController.js');
 
 var app = express();
 
@@ -21,11 +22,17 @@ app.use(express.static(path.resolve(__dirname, '..', 'client')));
 
 app.get('/api/lists', listController.getAll);
 
+app.get('/api/lists/user/:id', listController.getUser);
+
 app.get('/api/list/:id', listController.getOne);
 
 app.put('/api/list/:id', listController.updateOne);
 
 app.post('/api/lists', listController.save);
+
+app.put('/api/user', userController.updateOne);
+
+app.get('/api/user/:id', userController.getOne);
 
 // Always return the main index.html, so react-router render the route in the client
 app.get('*', (req, res) => {

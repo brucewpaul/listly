@@ -5,11 +5,13 @@ import SingleItem from './SingleItem.jsx'
 var SingleList = (props) => (
   <div className="single-list-item">
     <h4>Items:</h4>
+    <ol>
     {props.items.map( item => {
       return (
         <SingleItem item={item} />
       )
     })}
+    </ol>
   </div>
 );
 

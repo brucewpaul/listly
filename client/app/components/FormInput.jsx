@@ -1,7 +1,8 @@
 import React from 'react'
 
 var FormInput = (props) => (
-  <div>
+  <div className="panel panel-default">
+    <div className="panel-body">
     <div className="form-group">
       <label>Title:</label>
       <input
@@ -28,6 +29,7 @@ var FormInput = (props) => (
         value={props.item.url}
         onChange={props.handleItemChange.bind(this, props.index, 'url')}
         name="title"/>
+    </div>
     </div>
   </div>
 );

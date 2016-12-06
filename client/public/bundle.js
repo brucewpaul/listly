@@ -57,19 +57,27 @@
 	
 	var _reactRouter = __webpack_require__(/*! react-router */ 159);
 	
-	var _App = __webpack_require__(/*! ./components/App.jsx */ 215);
+	var _Main = __webpack_require__(/*! ./components/Main.jsx */ 215);
+	
+	var _Main2 = _interopRequireDefault(_Main);
+	
+	var _App = __webpack_require__(/*! ./components/App.jsx */ 217);
 	
 	var _App2 = _interopRequireDefault(_App);
 	
-	var _AllLinks = __webpack_require__(/*! ./components/AllLinks.jsx */ 217);
+	var _Login = __webpack_require__(/*! ./components/Login.jsx */ 227);
+	
+	var _Login2 = _interopRequireDefault(_Login);
+	
+	var _AllLinks = __webpack_require__(/*! ./components/AllLinks.jsx */ 218);
 	
 	var _AllLinks2 = _interopRequireDefault(_AllLinks);
 	
-	var _NewLink = __webpack_require__(/*! ./components/NewLink.jsx */ 222);
+	var _NewLink = __webpack_require__(/*! ./components/NewLink.jsx */ 223);
 	
 	var _NewLink2 = _interopRequireDefault(_NewLink);
 	
-	var _SingleList = __webpack_require__(/*! ./components/SingleList.jsx */ 218);
+	var _SingleList = __webpack_require__(/*! ./components/SingleList.jsx */ 219);
 	
 	var _SingleList2 = _interopRequireDefault(_SingleList);
 	
@@ -77,11 +85,24 @@
 	
 	var _EditList2 = _interopRequireDefault(_EditList);
 	
-	var _SingleListPage = __webpack_require__(/*! ./components/SingleListPage.jsx */ 223);
+	var _SingleListPage = __webpack_require__(/*! ./components/SingleListPage.jsx */ 226);
 	
 	var _SingleListPage2 = _interopRequireDefault(_SingleListPage);
 	
+	var _SingleUserPage = __webpack_require__(/*! ./components/SingleUserPage.jsx */ 228);
+	
+	var _SingleUserPage2 = _interopRequireDefault(_SingleUserPage);
+	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+	
+	var checkAuth = function checkAuth(nextState, replace) {
+	  if (!localStorage.getItem('id_token')) {
+	    replace({
+	      pathname: '/login',
+	      state: { nextPathname: nextState.location.pathname }
+	    });
+	  }
+	};
 	
 	(0, _reactDom.render)(_react2.default.createElement(
 	  _reactRouter.Router,
@@ -90,9 +111,11 @@
 	    _reactRouter.Route,
 	    { path: '/', component: _App2.default },
 	    _react2.default.createElement(_reactRouter.IndexRoute, { component: _AllLinks2.default }),
-	    _react2.default.createElement(_reactRouter.Route, { path: '/new', component: _NewLink2.default }),
+	    _react2.default.createElement(_reactRouter.Route, { path: '/new', component: _NewLink2.default, onEnter: checkAuth }),
+	    _react2.default.createElement(_reactRouter.Route, { path: '/login', component: _Login2.default }),
+	    _react2.default.createElement(_reactRouter.Route, { path: '/user/:id', component: _SingleUserPage2.default }),
 	    _react2.default.createElement(_reactRouter.Route, { path: '/list/:id', component: _SingleListPage2.default }),
-	    _react2.default.createElement(_reactRouter.Route, { path: '/list/:id/edit', component: _EditList2.default })
+	    _react2.default.createElement(_reactRouter.Route, { path: '/list/:id/edit', component: _EditList2.default, onEnter: checkAuth })
 	  )
 	), document.getElementById('app'));
 
@@ -25428,9 +25451,9 @@
 
 /***/ },
 /* 215 */
-/*!***************************************!*\
-  !*** ./client/app/components/App.jsx ***!
-  \***************************************/
+/*!****************************************!*\
+  !*** ./client/app/components/Main.jsx ***!
+  \****************************************/
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -25460,20 +25483,36 @@
 	var App = function (_React$Component) {
 	  _inherits(App, _React$Component);
 	
-	  function App() {
+	  function App(props) {
 	    _classCallCheck(this, App);
 	
-	    return _possibleConstructorReturn(this, (App.__proto__ || Object.getPrototypeOf(App)).apply(this, arguments));
+	    return _possibleConstructorReturn(this, (App.__proto__ || Object.getPrototypeOf(App)).call(this, props));
 	  }
 	
 	  _createClass(App, [{
 	    key: 'render',
 	    value: function render() {
+	      var _this2 = this;
+	
+	      var childrenWithProps = _react2.default.Children.map(this.props.children, function (child) {
+	        return _react2.default.cloneElement(child, {
+	          lock: _this2.props.lock,
+	          idToken: _this2.props.idToken
+	        });
+	      });
+	
 	      return _react2.default.createElement(
 	        'div',
-	        null,
-	        _react2.default.createElement(_Header2.default, null),
-	        this.props.children
+	        { className: 'container' },
+	        _react2.default.createElement(
+	          'div',
+	          { className: 'row' },
+	          _react2.default.createElement(
+	            'div',
+	            { className: 'col-xs-8 col-xs-offset-2' },
+	            childrenWithProps
+	          )
+	        )
 	      );
 	    }
 	  }]);
@@ -25515,13 +25554,27 @@
 	var Header = function (_React$Component) {
 	  _inherits(Header, _React$Component);
 	
-	  function Header() {
+	  function Header(props) {
 	    _classCallCheck(this, Header);
 	
-	    return _possibleConstructorReturn(this, (Header.__proto__ || Object.getPrototypeOf(Header)).apply(this, arguments));
+	    return _possibleConstructorReturn(this, (Header.__proto__ || Object.getPrototypeOf(Header)).call(this, props));
+	    // console.log('in head', this)
 	  }
 	
 	  _createClass(Header, [{
+	    key: 'showLock',
+	    value: function showLock() {
+	      // Show the Auth0Lock widget
+	      this.props.lock.show();
+	    }
+	  }, {
+	    key: 'logout',
+	    value: function logout() {
+	      localStorage.removeItem('id_token');
+	      // browserHistory.push('/');
+	      window.location.href = '/';
+	    }
+	  }, {
 	    key: 'render',
 	    value: function render() {
 	      return _react2.default.createElement(
@@ -25529,38 +25582,59 @@
 	        { className: 'navbar navbar-default' },
 	        _react2.default.createElement(
 	          'div',
-	          { className: 'navbar-header' },
+	          { className: 'container-fluid' },
 	          _react2.default.createElement(
-	            'button',
-	            { type: 'button', className: 'navbar-toggle collapsed', 'data-toggle': 'collapse', 'data-target': '#bs-example-navbar-collapse-1', 'aria-expanded': 'false' },
+	            'div',
+	            { className: 'navbar-header' },
 	            _react2.default.createElement(
-	              'span',
-	              { className: 'sr-only' },
-	              'Toggle navigation'
+	              'button',
+	              { type: 'button', className: 'navbar-toggle collapsed', 'data-toggle': 'collapse', 'data-target': '#bs-example-navbar-collapse-1', 'aria-expanded': 'false' },
+	              _react2.default.createElement(
+	                'span',
+	                { className: 'sr-only' },
+	                'Toggle navigation'
+	              ),
+	              _react2.default.createElement('span', { className: 'icon-bar' }),
+	              _react2.default.createElement('span', { className: 'icon-bar' }),
+	              _react2.default.createElement('span', { className: 'icon-bar' })
 	            ),
-	            _react2.default.createElement('span', { className: 'icon-bar' }),
-	            _react2.default.createElement('span', { className: 'icon-bar' }),
-	            _react2.default.createElement('span', { className: 'icon-bar' })
+	            _react2.default.createElement(
+	              _reactRouter.Link,
+	              { to: '/', className: 'navbar-brand' },
+	              'Make-A-List'
+	            )
 	          ),
 	          _react2.default.createElement(
-	            _reactRouter.Link,
-	            { to: '/', className: 'navbar-brand' },
-	            'Make-A-List'
-	          )
-	        ),
-	        _react2.default.createElement(
-	          'div',
-	          { className: 'collapse navbar-collapse', id: 'bs-example-navbar-collapse-1' },
-	          _react2.default.createElement(
-	            'ul',
-	            { className: 'nav navbar-nav' },
+	            'div',
+	            { className: 'collapse navbar-collapse', id: 'bs-example-navbar-collapse-1' },
 	            _react2.default.createElement(
-	              'li',
-	              null,
-	              _react2.default.createElement(
-	                _reactRouter.Link,
-	                { to: '/new' },
-	                'New List'
+	              'ul',
+	              { className: 'nav navbar-nav' },
+	              this.props.idToken ? _react2.default.createElement(
+	                'li',
+	                null,
+	                _react2.default.createElement(
+	                  _reactRouter.Link,
+	                  { to: '/new' },
+	                  'New List'
+	                )
+	              ) : null,
+	              this.props.idToken ? _react2.default.createElement(
+	                'li',
+	                null,
+	                _react2.default.createElement(
+	                  'a',
+	                  { onClick: this.logout },
+	                  'Logout'
+	                )
+	              ) : _react2.default.createElement(
+	                'li',
+	                null,
+	                _react2.default.createElement(
+	                  'a',
+	                  { onClick: this.showLock.bind(this) },
+	                  'Login'
+	                )
 	              )
 	            )
 	          )
@@ -25576,6 +25650,101 @@
 
 /***/ },
 /* 217 */
+/*!***************************************!*\
+  !*** ./client/app/components/App.jsx ***!
+  \***************************************/
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+	
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	
+	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+	
+	var _react = __webpack_require__(/*! react */ 1);
+	
+	var _react2 = _interopRequireDefault(_react);
+	
+	var _Header = __webpack_require__(/*! ./Header.jsx */ 216);
+	
+	var _Header2 = _interopRequireDefault(_Header);
+	
+	var _Main = __webpack_require__(/*! ./Main.jsx */ 215);
+	
+	var _Main2 = _interopRequireDefault(_Main);
+	
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+	
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+	
+	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+	
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+	
+	var App = function (_React$Component) {
+	  _inherits(App, _React$Component);
+	
+	  function App() {
+	    _classCallCheck(this, App);
+	
+	    return _possibleConstructorReturn(this, (App.__proto__ || Object.getPrototypeOf(App)).apply(this, arguments));
+	  }
+	
+	  _createClass(App, [{
+	    key: 'componentWillMount',
+	    value: function componentWillMount() {
+	      this.lock = new Auth0Lock('9uvVgISu0MjoaTUt51nqBGEWPWqjmQXQ', 'brucewpaul.auth0.com');
+	      // Set the state with a property that has the token
+	      this.setState({ idToken: this.getIdToken() });
+	    }
+	  }, {
+	    key: 'createLock',
+	    value: function createLock() {
+	      this.lock = new Auth0Lock(this.props.clientId, this.props.domain);
+	    }
+	  }, {
+	    key: 'getIdToken',
+	    value: function getIdToken() {
+	      // First, check if there is already a JWT in local storage
+	      var idToken = localStorage.getItem('id_token');
+	      var authHash = this.lock.parseHash(window.location.hash);
+	      // If there is no JWT in local storage and there is one in the URL hash,
+	      // save it in local storage
+	      if (!idToken && authHash) {
+	
+	        if (authHash.id_token) {
+	
+	          idToken = authHash.id_token;
+	          localStorage.setItem('id_token', authHash.id_token);
+	        }
+	        if (authHash.error) {
+	          // Handle any error conditions
+	          console.log("Error signing in", authHash);
+	        }
+	      }
+	      return idToken;
+	    }
+	  }, {
+	    key: 'render',
+	    value: function render() {
+	      return _react2.default.createElement(
+	        'div',
+	        null,
+	        _react2.default.createElement(_Header2.default, { idToken: this.state.idToken, lock: this.lock }),
+	        _react2.default.createElement(_Main2.default, { lock: this.lock, idToken: this.state.idToken, children: this.props.children })
+	      );
+	    }
+	  }]);
+	
+	  return App;
+	}(_react2.default.Component);
+	
+	exports.default = App;
+
+/***/ },
+/* 218 */
 /*!********************************************!*\
   !*** ./client/app/components/AllLinks.jsx ***!
   \********************************************/
@@ -25593,13 +25762,9 @@
 	
 	var _react2 = _interopRequireDefault(_react);
 	
-	var _SingleList = __webpack_require__(/*! ./SingleList.jsx */ 218);
+	var _SingleList = __webpack_require__(/*! ./SingleList.jsx */ 219);
 	
 	var _SingleList2 = _interopRequireDefault(_SingleList);
-	
-	var _LinkController = __webpack_require__(/*! ../lib/LinkController.js */ 221);
-	
-	var _LinkController2 = _interopRequireDefault(_LinkController);
 	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 	
@@ -25657,7 +25822,7 @@
 	exports.default = AllLinks;
 
 /***/ },
-/* 218 */
+/* 219 */
 /*!**********************************************!*\
   !*** ./client/app/components/SingleList.jsx ***!
   \**********************************************/
@@ -25675,7 +25840,7 @@
 	
 	var _reactRouter = __webpack_require__(/*! react-router */ 159);
 	
-	var _ItemList = __webpack_require__(/*! ./ItemList.jsx */ 219);
+	var _ItemList = __webpack_require__(/*! ./ItemList.jsx */ 220);
 	
 	var _ItemList2 = _interopRequireDefault(_ItemList);
 	
@@ -25692,6 +25857,15 @@
 	        _reactRouter.Link,
 	        { to: '/list/' + props.listItem._id },
 	        props.listItem.title
+	      )
+	    ),
+	    _react2.default.createElement(
+	      _reactRouter.Link,
+	      { to: '/user/' + props.listItem.id },
+	      _react2.default.createElement(
+	        'small',
+	        null,
+	        props.listItem.id
 	      )
 	    ),
 	    _react2.default.createElement(
@@ -25714,7 +25888,7 @@
 	exports.default = SingleList;
 
 /***/ },
-/* 219 */
+/* 220 */
 /*!********************************************!*\
   !*** ./client/app/components/ItemList.jsx ***!
   \********************************************/
@@ -25730,7 +25904,7 @@
 	
 	var _react2 = _interopRequireDefault(_react);
 	
-	var _SingleItem = __webpack_require__(/*! ./SingleItem.jsx */ 220);
+	var _SingleItem = __webpack_require__(/*! ./SingleItem.jsx */ 221);
 	
 	var _SingleItem2 = _interopRequireDefault(_SingleItem);
 	
@@ -25745,9 +25919,13 @@
 	      null,
 	      'Items:'
 	    ),
-	    props.items.map(function (item) {
-	      return _react2.default.createElement(_SingleItem2.default, { item: item });
-	    })
+	    _react2.default.createElement(
+	      'ol',
+	      null,
+	      props.items.map(function (item) {
+	        return _react2.default.createElement(_SingleItem2.default, { item: item });
+	      })
+	    )
 	  );
 	};
 	
@@ -25762,13 +25940,13 @@
 	exports.default = SingleList;
 
 /***/ },
-/* 220 */
+/* 221 */
 /*!**********************************************!*\
   !*** ./client/app/components/SingleItem.jsx ***!
   \**********************************************/
 /***/ function(module, exports, __webpack_require__) {
 
-	"use strict";
+	'use strict';
 	
 	Object.defineProperty(exports, "__esModule", {
 	  value: true
@@ -25778,24 +25956,38 @@
 	
 	var _react2 = _interopRequireDefault(_react);
 	
+	var _reactRouter = __webpack_require__(/*! react-router */ 159);
+	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 	
 	var SingleItem = function SingleItem(props) {
 	  return _react2.default.createElement(
-	    "div",
-	    { className: "single-item" },
+	    'li',
+	    { className: 'single-item' },
 	    _react2.default.createElement(
-	      "div",
+	      'div',
 	      null,
-	      props.item.title,
-	      _react2.default.createElement("br", null),
-	      props.item.description,
-	      _react2.default.createElement("br", null),
-	      props.item.url,
-	      _react2.default.createElement("br", null),
-	      _react2.default.createElement("br", null),
-	      _react2.default.createElement("br", null),
-	      _react2.default.createElement("br", null)
+	      _react2.default.createElement(
+	        _reactRouter.Link,
+	        { to: '{props.item.url}' },
+	        props.item.title
+	      ),
+	      _react2.default.createElement(
+	        'p',
+	        null,
+	        _react2.default.createElement(
+	          'small',
+	          null,
+	          '(',
+	          props.item.url,
+	          ')'
+	        )
+	      ),
+	      _react2.default.createElement(
+	        'p',
+	        null,
+	        props.item.description
+	      )
 	    )
 	  );
 	};
@@ -25811,24 +26003,8 @@
 	exports.default = SingleItem;
 
 /***/ },
-/* 221 */
-/*!******************************************!*\
-  !*** ./client/app/lib/LinkController.js ***!
-  \******************************************/
-/***/ function(module, exports) {
-
-	// module.exports.get = $.ajax({
-	//   url: "/api/links",
-	//   method: "GET",
-	//   success: function(data) {
-	//     console.log(data);
-	//     return data;
-	//   }
-	// });
-	"use strict";
-
-/***/ },
-/* 222 */
+/* 222 */,
+/* 223 */
 /*!*******************************************!*\
   !*** ./client/app/components/NewLink.jsx ***!
   \*******************************************/
@@ -25881,6 +26057,28 @@
 	  }
 	
 	  _createClass(NewLink, [{
+	    key: 'componentDidMount',
+	    value: function componentDidMount() {
+	      // The token is passed down from the App component
+	      // and used to retrieve the profile
+	      this.props.lock.getProfile(this.props.idToken, function (err, profile) {
+	        if (err) {
+	          console.log("Error loading the Profile", err);
+	          return;
+	        }
+	        $.ajax({
+	          url: '/api/user/',
+	          method: "PUT",
+	          data: profile
+	        }).done(function (data) {
+	          console.log('from ajax', data);
+	        }).fail(function (err) {
+	          console.log('an error has occured :', err);
+	        });
+	        this.setState({ id: profile.email, profile: profile });
+	      }.bind(this));
+	    }
+	  }, {
 	    key: 'handleChange',
 	    value: function handleChange(name, event) {
 	      var stateChange = {};
@@ -25898,13 +26096,15 @@
 	    key: 'handleSubmit',
 	    value: function handleSubmit(event) {
 	      event.preventDefault();
+	      console.log(this.state);
 	      var self = this;
 	      $.ajax({
 	        url: "/api/lists",
 	        method: "POST",
 	        data: self.state
 	      }).done(function (data) {
-	        _reactRouter.browserHistory.push('/list/' + data._id);
+	        console.log(data);
+	        // browserHistory.push(`/list/${data._id}`);
 	      }).fail(function (err) {
 	        console.log('an error has occured :', err);
 	      });
@@ -25931,52 +26131,72 @@
 	        { onSubmit: this.handleSubmit.bind(this) },
 	        _react2.default.createElement(
 	          'div',
-	          { className: 'form-group' },
+	          { className: 'row' },
 	          _react2.default.createElement(
-	            'label',
-	            null,
-	            'Title:'
+	            'div',
+	            { className: 'col-xs-12 col-sm-6' },
+	            _react2.default.createElement(
+	              'div',
+	              { className: 'form-group' },
+	              _react2.default.createElement(
+	                'label',
+	                null,
+	                'Title:'
+	              ),
+	              _react2.default.createElement('input', {
+	                className: 'form-control',
+	                type: 'text',
+	                value: this.state.title,
+	                onChange: this.handleChange.bind(this, 'title'),
+	                name: 'title' })
+	            ),
+	            _react2.default.createElement(
+	              'div',
+	              { className: 'form-group' },
+	              _react2.default.createElement(
+	                'label',
+	                null,
+	                'Description:'
+	              ),
+	              _react2.default.createElement('textarea', {
+	                className: 'form-control',
+	                type: 'text',
+	                value: this.state.description,
+	                onChange: this.handleChange.bind(this, 'description'),
+	                name: 'description' })
+	            )
 	          ),
-	          _react2.default.createElement('input', {
-	            className: 'form-control',
-	            type: 'text',
-	            value: this.state.title,
-	            onChange: this.handleChange.bind(this, 'title'),
-	            name: 'title' })
+	          _react2.default.createElement(
+	            'div',
+	            { className: 'col-xs-12 col-sm-6' },
+	            _react2.default.createElement(
+	              'h3',
+	              null,
+	              'Items:'
+	            ),
+	            _react2.default.createElement(
+	              'div',
+	              { className: 'form-item-list' },
+	              this.state.items.map(function (item, index) {
+	                return _react2.default.createElement(_FormInput2.default, { handleItemChange: _this2.handleItemChange.bind(_this2), key: index, index: index, item: item });
+	              })
+	            ),
+	            _react2.default.createElement(
+	              'a',
+	              { onClick: this.handleAddItem.bind(this), className: 'btn btn-primary' },
+	              'Add Item'
+	            )
+	          )
 	        ),
 	        _react2.default.createElement(
 	          'div',
-	          { className: 'form-group' },
+	          { className: 'row text-center' },
 	          _react2.default.createElement(
-	            'label',
-	            null,
-	            'Description:'
-	          ),
-	          _react2.default.createElement('input', {
-	            className: 'form-control',
-	            type: 'text',
-	            value: this.state.description,
-	            onChange: this.handleChange.bind(this, 'description'),
-	            name: 'description' })
-	        ),
-	        _react2.default.createElement(
-	          'h3',
-	          null,
-	          'Items:'
-	        ),
-	        _react2.default.createElement(
-	          'div',
-	          { className: 'form-item-list' },
-	          this.state.items.map(function (item, index) {
-	            return _react2.default.createElement(_FormInput2.default, { handleItemChange: _this2.handleItemChange.bind(_this2), key: index, index: index, item: item });
-	          })
-	        ),
-	        _react2.default.createElement(
-	          'a',
-	          { onClick: this.handleAddItem.bind(this) },
-	          'Add Item'
-	        ),
-	        _react2.default.createElement('input', { type: 'submit', value: 'Submit' })
+	            'div',
+	            { className: 'col-sx-12' },
+	            _react2.default.createElement('input', { type: 'submit', value: 'Submit', className: 'btn btn-success btn-lg' })
+	          )
+	        )
 	      );
 	    }
 	  }]);
@@ -25985,88 +26205,6 @@
 	}(_react2.default.Component);
 	
 	exports.default = NewLink;
-
-/***/ },
-/* 223 */
-/*!**************************************************!*\
-  !*** ./client/app/components/SingleListPage.jsx ***!
-  \**************************************************/
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';
-	
-	Object.defineProperty(exports, "__esModule", {
-	  value: true
-	});
-	
-	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-	
-	var _react = __webpack_require__(/*! react */ 1);
-	
-	var _react2 = _interopRequireDefault(_react);
-	
-	var _reactRouter = __webpack_require__(/*! react-router */ 159);
-	
-	var _SingleList = __webpack_require__(/*! ./SingleList.jsx */ 218);
-	
-	var _SingleList2 = _interopRequireDefault(_SingleList);
-	
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-	
-	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-	
-	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
-	
-	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
-	
-	var SingleListPage = function (_React$Component) {
-	  _inherits(SingleListPage, _React$Component);
-	
-	  function SingleListPage(props) {
-	    _classCallCheck(this, SingleListPage);
-	
-	    var _this = _possibleConstructorReturn(this, (SingleListPage.__proto__ || Object.getPrototypeOf(SingleListPage)).call(this, props));
-	
-	    _this.state = {
-	      currentList: null
-	    };
-	    return _this;
-	  }
-	
-	  _createClass(SingleListPage, [{
-	    key: 'componentDidMount',
-	    value: function componentDidMount() {
-	      var self = this;
-	      $.ajax({
-	        url: '/api/list/' + self.props.params.id,
-	        method: "GET",
-	        success: function success(data) {
-	          self.setState({
-	            currentList: data[0]
-	          });
-	        }
-	      });
-	    }
-	  }, {
-	    key: 'render',
-	    value: function render() {
-	      return _react2.default.createElement(
-	        'div',
-	        null,
-	        _react2.default.createElement(
-	          _reactRouter.Link,
-	          { to: '/list/' + this.props.params.id + '/edit' },
-	          'Edit list'
-	        ),
-	        this.state.currentList !== null ? _react2.default.createElement(_SingleList2.default, { listItem: this.state.currentList }) : null
-	      );
-	    }
-	  }]);
-	
-	  return SingleListPage;
-	}(_react2.default.Component);
-	
-	exports.default = SingleListPage;
 
 /***/ },
 /* 224 */
@@ -26090,51 +26228,55 @@
 	var FormInput = function FormInput(props) {
 	  return _react2.default.createElement(
 	    "div",
-	    null,
+	    { className: "panel panel-default" },
 	    _react2.default.createElement(
 	      "div",
-	      { className: "form-group" },
+	      { className: "panel-body" },
 	      _react2.default.createElement(
-	        "label",
-	        null,
-	        "Title:"
+	        "div",
+	        { className: "form-group" },
+	        _react2.default.createElement(
+	          "label",
+	          null,
+	          "Title:"
+	        ),
+	        _react2.default.createElement("input", {
+	          className: "form-control",
+	          type: "text",
+	          value: props.item.title,
+	          onChange: props.handleItemChange.bind(undefined, props.index, 'title'),
+	          name: "title" })
 	      ),
-	      _react2.default.createElement("input", {
-	        className: "form-control",
-	        type: "text",
-	        value: props.item.title,
-	        onChange: props.handleItemChange.bind(undefined, props.index, 'title'),
-	        name: "title" })
-	    ),
-	    _react2.default.createElement(
-	      "div",
-	      { className: "form-group" },
 	      _react2.default.createElement(
-	        "label",
-	        null,
-	        "Description:"
+	        "div",
+	        { className: "form-group" },
+	        _react2.default.createElement(
+	          "label",
+	          null,
+	          "Description:"
+	        ),
+	        _react2.default.createElement("input", {
+	          className: "form-control",
+	          type: "text",
+	          value: props.item.description,
+	          onChange: props.handleItemChange.bind(undefined, props.index, 'description'),
+	          name: "title" })
 	      ),
-	      _react2.default.createElement("input", {
-	        className: "form-control",
-	        type: "text",
-	        value: props.item.description,
-	        onChange: props.handleItemChange.bind(undefined, props.index, 'description'),
-	        name: "title" })
-	    ),
-	    _react2.default.createElement(
-	      "div",
-	      { className: "form-group" },
 	      _react2.default.createElement(
-	        "label",
-	        null,
-	        "Url:"
-	      ),
-	      _react2.default.createElement("input", {
-	        className: "form-control",
-	        type: "text",
-	        value: props.item.url,
-	        onChange: props.handleItemChange.bind(undefined, props.index, 'url'),
-	        name: "title" })
+	        "div",
+	        { className: "form-group" },
+	        _react2.default.createElement(
+	          "label",
+	          null,
+	          "Url:"
+	        ),
+	        _react2.default.createElement("input", {
+	          className: "form-control",
+	          type: "text",
+	          value: props.item.url,
+	          onChange: props.handleItemChange.bind(undefined, props.index, 'url'),
+	          name: "title" })
+	      )
 	    )
 	  );
 	};
@@ -26187,7 +26329,8 @@
 	    _this.state = {
 	      title: '',
 	      description: '',
-	      items: []
+	      items: [],
+	      id: ''
 	    };
 	    return _this;
 	  }
@@ -26196,12 +26339,25 @@
 	    key: 'componentDidMount',
 	    value: function componentDidMount() {
 	      var self = this;
-	      $.ajax({
-	        url: '/api/list/' + self.props.params.id,
-	        method: "GET",
-	        success: function success(data) {
-	          self.setState(data[0]);
+	      this.props.lock.getProfile(self.props.idToken, function (err, profile) {
+	        if (err) {
+	          console.log("Error loading the Profile", err);
+	          return;
 	        }
+	        $.ajax({
+	          url: '/api/list/' + self.props.params.id,
+	          method: "GET",
+	          success: function success(data) {
+	            if (profile.email === data[0].id) {
+	              self.setState(data[0]);
+	            } else {
+	              console.log('err', data[0]);
+	              _reactRouter.browserHistory.push('/list/' + self.props.params.id);
+	              return;
+	            }
+	          }
+	        });
+	        self.setState({ id: profile.email, profile: profile });
 	      });
 	    }
 	  }, {
@@ -26256,52 +26412,75 @@
 	        { onSubmit: this.handleSubmit.bind(this) },
 	        _react2.default.createElement(
 	          'div',
-	          { className: 'form-group' },
+	          { className: 'row' },
 	          _react2.default.createElement(
-	            'label',
-	            null,
-	            'Title:'
+	            'div',
+	            { className: 'col-xs-12 col-sm-6' },
+	            _react2.default.createElement(
+	              'div',
+	              { className: 'form-group' },
+	              _react2.default.createElement(
+	                'label',
+	                null,
+	                'Title:'
+	              ),
+	              _react2.default.createElement('input', {
+	                className: 'form-control',
+	                type: 'text',
+	                value: this.state.title,
+	                onChange: this.handleChange.bind(this, 'title'),
+	                name: 'title' })
+	            ),
+	            _react2.default.createElement(
+	              'div',
+	              { className: 'form-group' },
+	              _react2.default.createElement(
+	                'label',
+	                null,
+	                'Description:'
+	              ),
+	              _react2.default.createElement('textarea', {
+	                className: 'form-control',
+	                type: 'text',
+	                value: this.state.description,
+	                onChange: this.handleChange.bind(this, 'description'),
+	                name: 'description' })
+	            )
 	          ),
-	          _react2.default.createElement('input', {
-	            className: 'form-control',
-	            type: 'text',
-	            value: this.state.title,
-	            onChange: this.handleChange.bind(this, 'title'),
-	            name: 'title' })
+	          _react2.default.createElement(
+	            'div',
+	            { className: 'col-xs-12 col-sm-6' },
+	            _react2.default.createElement(
+	              'h3',
+	              null,
+	              'Items:'
+	            ),
+	            _react2.default.createElement(
+	              'div',
+	              { className: 'form-item-list' },
+	              this.state.items.map(function (item, index) {
+	                return _react2.default.createElement(_FormInput2.default, { handleItemChange: _this2.handleItemChange.bind(_this2), key: index, index: index, item: item });
+	              })
+	            ),
+	            _react2.default.createElement(
+	              'a',
+	              { onClick: this.handleAddItem.bind(this), className: 'btn btn-primary' },
+	              'Add Item'
+	            )
+	          )
 	        ),
+	        _react2.default.createElement('br', null),
+	        _react2.default.createElement('br', null),
+	        _react2.default.createElement('br', null),
 	        _react2.default.createElement(
 	          'div',
-	          { className: 'form-group' },
+	          { className: 'row text-center' },
 	          _react2.default.createElement(
-	            'label',
-	            null,
-	            'Description:'
-	          ),
-	          _react2.default.createElement('input', {
-	            className: 'form-control',
-	            type: 'text',
-	            value: this.state.description,
-	            onChange: this.handleChange.bind(this, 'description'),
-	            name: 'description' })
-	        ),
-	        _react2.default.createElement(
-	          'h3',
-	          null,
-	          'Items:'
-	        ),
-	        _react2.default.createElement(
-	          'div',
-	          { className: 'form-item-list' },
-	          this.state.items.map(function (item, index) {
-	            return _react2.default.createElement(_FormInput2.default, { handleItemChange: _this2.handleItemChange.bind(_this2), key: index, index: index, item: item });
-	          })
-	        ),
-	        _react2.default.createElement(
-	          'a',
-	          { onClick: this.handleAddItem.bind(this) },
-	          'Add Item'
-	        ),
-	        _react2.default.createElement('input', { type: 'submit', value: 'Submit' })
+	            'div',
+	            { className: 'col-sx-12' },
+	            _react2.default.createElement('input', { type: 'submit', value: 'Submit', className: 'btn btn-success btn-lg' })
+	          )
+	        )
 	      );
 	    }
 	  }]);
@@ -26310,6 +26489,265 @@
 	}(_react2.default.Component);
 	
 	exports.default = EditList;
+
+/***/ },
+/* 226 */
+/*!**************************************************!*\
+  !*** ./client/app/components/SingleListPage.jsx ***!
+  \**************************************************/
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+	
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	
+	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+	
+	var _react = __webpack_require__(/*! react */ 1);
+	
+	var _react2 = _interopRequireDefault(_react);
+	
+	var _reactRouter = __webpack_require__(/*! react-router */ 159);
+	
+	var _SingleList = __webpack_require__(/*! ./SingleList.jsx */ 219);
+	
+	var _SingleList2 = _interopRequireDefault(_SingleList);
+	
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+	
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+	
+	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+	
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+	
+	var SingleListPage = function (_React$Component) {
+	  _inherits(SingleListPage, _React$Component);
+	
+	  function SingleListPage(props) {
+	    _classCallCheck(this, SingleListPage);
+	
+	    var _this = _possibleConstructorReturn(this, (SingleListPage.__proto__ || Object.getPrototypeOf(SingleListPage)).call(this, props));
+	
+	    _this.state = {
+	      currentList: null,
+	      isUserList: false
+	    };
+	    return _this;
+	  }
+	
+	  _createClass(SingleListPage, [{
+	    key: 'componentDidMount',
+	    value: function componentDidMount() {
+	      var self = this;
+	      $.ajax({
+	        url: '/api/list/' + self.props.params.id,
+	        method: "GET",
+	        success: function success(data) {
+	          self.setState({
+	            currentList: data[0]
+	          });
+	          self.props.lock.getProfile(self.props.idToken, function (err, profile) {
+	            if (err) {
+	              console.log("Error loading the Profile", err);
+	              return;
+	            }
+	            if (data[0].id === profile.email) {
+	              self.setState({ isUserList: true });
+	            }
+	          });
+	        }
+	      });
+	    }
+	  }, {
+	    key: 'render',
+	    value: function render() {
+	      return _react2.default.createElement(
+	        'div',
+	        null,
+	        this.state.isUserList ? _react2.default.createElement(
+	          _reactRouter.Link,
+	          { to: '/list/' + this.props.params.id + '/edit' },
+	          'Edit list'
+	        ) : null,
+	        this.state.currentList !== null ? _react2.default.createElement(_SingleList2.default, { listItem: this.state.currentList }) : null
+	      );
+	    }
+	  }]);
+	
+	  return SingleListPage;
+	}(_react2.default.Component);
+	
+	exports.default = SingleListPage;
+
+/***/ },
+/* 227 */
+/*!*****************************************!*\
+  !*** ./client/app/components/Login.jsx ***!
+  \*****************************************/
+/***/ function(module, exports, __webpack_require__) {
+
+	"use strict";
+	
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	
+	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+	
+	var _react = __webpack_require__(/*! react */ 1);
+	
+	var _react2 = _interopRequireDefault(_react);
+	
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+	
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+	
+	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+	
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+	
+	var Login = function (_React$Component) {
+	  _inherits(Login, _React$Component);
+	
+	  function Login(props) {
+	    _classCallCheck(this, Login);
+	
+	    return _possibleConstructorReturn(this, (Login.__proto__ || Object.getPrototypeOf(Login)).call(this, props));
+	    // console.log('in head', this)
+	  }
+	
+	  _createClass(Login, [{
+	    key: "showLock",
+	    value: function showLock() {
+	      // Show the Auth0Lock widget
+	      this.props.lock.show();
+	    }
+	  }, {
+	    key: "render",
+	    value: function render() {
+	      return _react2.default.createElement(
+	        "div",
+	        { className: "text-center panel panel-default" },
+	        _react2.default.createElement(
+	          "div",
+	          { className: "panel-body" },
+	          _react2.default.createElement(
+	            "p",
+	            { className: "lead" },
+	            "You need to log in to do that first"
+	          ),
+	          _react2.default.createElement(
+	            "a",
+	            { onClick: this.showLock.bind(this), className: "btn btn-success btn-lg" },
+	            "Login"
+	          )
+	        )
+	      );
+	    }
+	  }]);
+	
+	  return Login;
+	}(_react2.default.Component);
+	
+	exports.default = Login;
+
+/***/ },
+/* 228 */
+/*!**************************************************!*\
+  !*** ./client/app/components/SingleUserPage.jsx ***!
+  \**************************************************/
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+	
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	
+	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+	
+	var _react = __webpack_require__(/*! react */ 1);
+	
+	var _react2 = _interopRequireDefault(_react);
+	
+	var _reactRouter = __webpack_require__(/*! react-router */ 159);
+	
+	var _SingleList = __webpack_require__(/*! ./SingleList.jsx */ 219);
+	
+	var _SingleList2 = _interopRequireDefault(_SingleList);
+	
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+	
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+	
+	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+	
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+	
+	var SingleListPage = function (_React$Component) {
+	  _inherits(SingleListPage, _React$Component);
+	
+	  function SingleListPage(props) {
+	    _classCallCheck(this, SingleListPage);
+	
+	    var _this = _possibleConstructorReturn(this, (SingleListPage.__proto__ || Object.getPrototypeOf(SingleListPage)).call(this, props));
+	
+	    _this.state = {
+	      currentUser: '',
+	      lists: []
+	    };
+	    return _this;
+	  }
+	
+	  _createClass(SingleListPage, [{
+	    key: 'componentDidMount',
+	    value: function componentDidMount() {
+	      var self = this;
+	      $.ajax({
+	        url: '/api/user/' + self.props.params.id,
+	        method: "GET",
+	        success: function success(data) {
+	          self.setState({
+	            currentUser: data
+	          });
+	          $.ajax({
+	            url: '/api/lists/user/' + data.email,
+	            method: "GET",
+	            success: function success(data) {
+	              console.log('from users lists', data);
+	              self.setState({
+	                lists: data
+	              });
+	            }
+	          });
+	        }
+	      });
+	    }
+	  }, {
+	    key: 'render',
+	    value: function render() {
+	      return _react2.default.createElement(
+	        'div',
+	        null,
+	        _react2.default.createElement(
+	          'h1',
+	          null,
+	          this.state.currentUser.nickname
+	        ),
+	        this.state.lists.map(function (list) {
+	          return _react2.default.createElement(_SingleList2.default, { listItem: list });
+	        })
+	      );
+	    }
+	  }]);
+	
+	  return SingleListPage;
+	}(_react2.default.Component);
+	
+	exports.default = SingleListPage;
 
 /***/ }
 /******/ ]);
