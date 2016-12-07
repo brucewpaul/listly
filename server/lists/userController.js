@@ -23,5 +23,19 @@ module.exports = {
         res.json(user);
       }
     });
+  },
+  addStar: function (req, res, next) {
+    console.log('users addstar', req.params)
+    var email = req.params.id;
+    var star = req.params.star
+    console.log(star)
+    User.findOneAndUpdate({email: email}, { $push: { stars: star } }, { new: true }, function(err, user){
+      if ( err ) {
+        next(err)
+      } else {
+        console.log('users update success', user)
+        res.json(user);
+      }
+    });
   }
 }

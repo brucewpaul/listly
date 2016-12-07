@@ -34,6 +34,8 @@ app.put('/api/user', userController.updateOne);
 
 app.get('/api/user/:id', userController.getOne);
 
+app.post('/api/user/:id/stars/:star', userController.addStar);
+
 // Always return the main index.html, so react-router render the route in the client
 app.get('*', (req, res) => {
   res.sendFile(path.resolve(__dirname, '..', 'client', 'index.html'));

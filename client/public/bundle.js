@@ -73,15 +73,15 @@
 	
 	var _AllLinks2 = _interopRequireDefault(_AllLinks);
 	
-	var _NewLink = __webpack_require__(/*! ./components/NewLink.jsx */ 223);
+	var _NewLink = __webpack_require__(/*! ./components/NewLink.jsx */ 220);
 	
 	var _NewLink2 = _interopRequireDefault(_NewLink);
 	
-	var _SingleList = __webpack_require__(/*! ./components/SingleList.jsx */ 220);
+	var _SingleList = __webpack_require__(/*! ./components/SingleList.jsx */ 222);
 	
 	var _SingleList2 = _interopRequireDefault(_SingleList);
 	
-	var _EditList = __webpack_require__(/*! ./components/EditList.jsx */ 224);
+	var _EditList = __webpack_require__(/*! ./components/EditList.jsx */ 225);
 	
 	var _EditList2 = _interopRequireDefault(_EditList);
 	
@@ -98,7 +98,7 @@
 	var checkAuth = function checkAuth(nextState, replace) {
 	  if (!localStorage.getItem('id_token')) {
 	    replace({
-	      pathname: '/login',
+	      pathname: '/',
 	      state: { nextPathname: nextState.location.pathname }
 	    });
 	  }
@@ -25834,7 +25834,7 @@
 	
 	var _react2 = _interopRequireDefault(_react);
 	
-	var _SingleList = __webpack_require__(/*! ./SingleList.jsx */ 220);
+	var _SingleList = __webpack_require__(/*! ./SingleList.jsx */ 222);
 	
 	var _SingleList2 = _interopRequireDefault(_SingleList);
 	
@@ -25855,15 +25855,16 @@
 	    var _this = _possibleConstructorReturn(this, (AllLinks.__proto__ || Object.getPrototypeOf(AllLinks)).call(this, props));
 	
 	    _this.state = {
-	      lists: []
+	      lists: [],
+	      stars: []
 	    };
 	
 	    return _this;
 	  }
 	
 	  _createClass(AllLinks, [{
-	    key: 'componentDidMount',
-	    value: function componentDidMount() {
+	    key: 'componentWillMount',
+	    value: function componentWillMount() {
 	      var self = this;
 	      $.ajax({
 	        url: "/api/lists",
@@ -25874,15 +25875,38 @@
 	          });
 	        }
 	      });
+	      this.props.lock.getProfile(self.props.idToken, function (err, profile) {
+	        if (err) {
+	          console.log("Error loading the Profile", err);
+	          return;
+	        }
+	        self.setState({ id: profile.email, profile: profile });
+	      });
+	    }
+	  }, {
+	    key: 'handleClick',
+	    value: function handleClick(listId) {
+	      // console.log('test',this,listId)
+	      // var self = this;
+	      // $.ajax({
+	      //   url: `/api/user/${self.state.id}/stars/${listId}`,
+	      //   method: "POST",
+	      //   success: function(data) {
+	      //     console.log('from users update', data)
+	      //     this.setState((state) => ({stars: state.stars.concat([data.stars]) }));
+	      //   }
+	      // })
 	    }
 	  }, {
 	    key: 'render',
 	    value: function render() {
+	      var _this2 = this;
+	
 	      return _react2.default.createElement(
 	        'div',
 	        null,
 	        this.state.lists.map(function (list) {
-	          return _react2.default.createElement(_SingleList2.default, { listItem: list });
+	          return _react2.default.createElement(_SingleList2.default, { user: _this2.state.profile, handleClick: _this2.handleClick.bind(_this2), listItem: list });
 	        })
 	      );
 	    }
@@ -25895,191 +25919,6 @@
 
 /***/ },
 /* 220 */
-/*!**********************************************!*\
-  !*** ./client/app/components/SingleList.jsx ***!
-  \**********************************************/
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';
-	
-	Object.defineProperty(exports, "__esModule", {
-	  value: true
-	});
-	
-	var _react = __webpack_require__(/*! react */ 1);
-	
-	var _react2 = _interopRequireDefault(_react);
-	
-	var _reactRouter = __webpack_require__(/*! react-router */ 159);
-	
-	var _ItemList = __webpack_require__(/*! ./ItemList.jsx */ 221);
-	
-	var _ItemList2 = _interopRequireDefault(_ItemList);
-	
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-	
-	var SingleList = function SingleList(props) {
-	  return _react2.default.createElement(
-	    'div',
-	    { className: 'single-list-item panel panel-default' },
-	    _react2.default.createElement(
-	      'div',
-	      { className: 'panel-heading' },
-	      _react2.default.createElement(
-	        'h1',
-	        null,
-	        _react2.default.createElement(
-	          _reactRouter.Link,
-	          { to: '/list/' + props.listItem._id },
-	          props.listItem.title
-	        )
-	      ),
-	      _react2.default.createElement(
-	        'p',
-	        null,
-	        _react2.default.createElement(
-	          _reactRouter.Link,
-	          { to: '/user/' + props.listItem.id },
-	          _react2.default.createElement(
-	            'small',
-	            null,
-	            'by ',
-	            props.listItem.id
-	          )
-	        )
-	      )
-	    ),
-	    _react2.default.createElement(
-	      'div',
-	      { className: 'panel-body' },
-	      _react2.default.createElement(
-	        'p',
-	        { className: 'lead' },
-	        props.listItem.description
-	      ),
-	      props.listItem.items.length !== 0 ? _react2.default.createElement(_ItemList2.default, { items: props.listItem.items }) : null
-	    )
-	  );
-	};
-	
-	// PropTypes tell other developers what `props` a component expects
-	// Warnings will be shown in the console when the defined rules are violated
-	SingleList.propTypes = {
-	  listItem: _react2.default.PropTypes.object.isRequired
-	};
-	
-	// In the ES6 spec, files are "modules" and do not share a top-level scope
-	// `var` declarations will only exist globally where explicitly defined
-	exports.default = SingleList;
-
-/***/ },
-/* 221 */
-/*!********************************************!*\
-  !*** ./client/app/components/ItemList.jsx ***!
-  \********************************************/
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';
-	
-	Object.defineProperty(exports, "__esModule", {
-	  value: true
-	});
-	
-	var _react = __webpack_require__(/*! react */ 1);
-	
-	var _react2 = _interopRequireDefault(_react);
-	
-	var _SingleItem = __webpack_require__(/*! ./SingleItem.jsx */ 222);
-	
-	var _SingleItem2 = _interopRequireDefault(_SingleItem);
-	
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-	
-	var SingleList = function SingleList(props) {
-	  return _react2.default.createElement(
-	    'div',
-	    { className: 'single-list-item' },
-	    _react2.default.createElement(
-	      'ul',
-	      { className: 'list-group' },
-	      props.items.map(function (item) {
-	        return _react2.default.createElement(_SingleItem2.default, { item: item });
-	      })
-	    )
-	  );
-	};
-	
-	// PropTypes tell other developers what `props` a component expects
-	// Warnings will be shown in the console when the defined rules are violated
-	SingleList.propTypes = {
-	  listItem: _react2.default.PropTypes.object.isRequired
-	};
-	
-	// In the ES6 spec, files are "modules" and do not share a top-level scope
-	// `var` declarations will only exist globally where explicitly defined
-	exports.default = SingleList;
-
-/***/ },
-/* 222 */
-/*!**********************************************!*\
-  !*** ./client/app/components/SingleItem.jsx ***!
-  \**********************************************/
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';
-	
-	Object.defineProperty(exports, "__esModule", {
-	  value: true
-	});
-	
-	var _react = __webpack_require__(/*! react */ 1);
-	
-	var _react2 = _interopRequireDefault(_react);
-	
-	var _reactRouter = __webpack_require__(/*! react-router */ 159);
-	
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-	
-	var SingleItem = function SingleItem(props) {
-	  return _react2.default.createElement(
-	    'a',
-	    { href: props.item.url, className: 'single-item list-group-item' },
-	    _react2.default.createElement(
-	      'p',
-	      { className: 'text-primary' },
-	      props.item.title
-	    ),
-	    _react2.default.createElement(
-	      'p',
-	      null,
-	      _react2.default.createElement(
-	        'small',
-	        null,
-	        '(',
-	        props.item.url,
-	        ')'
-	      )
-	    ),
-	    _react2.default.createElement(
-	      'p',
-	      null,
-	      props.item.description
-	    )
-	  );
-	};
-	
-	// PropTypes tell other developers what `props` a component expects
-	// Warnings will be shown in the console when the defined rules are violated
-	SingleItem.propTypes = {
-	  listItem: _react2.default.PropTypes.object
-	};
-	
-	// In the ES6 spec, files are "modules" and do not share a top-level scope
-	// `var` declarations will only exist globally where explicitly defined
-	exports.default = SingleItem;
-
-/***/ },
-/* 223 */
 /*!*******************************************!*\
   !*** ./client/app/components/NewLink.jsx ***!
   \*******************************************/
@@ -26103,7 +25942,7 @@
 	
 	var _Header2 = _interopRequireDefault(_Header);
 	
-	var _FormInput = __webpack_require__(/*! ./FormInput.jsx */ 225);
+	var _FormInput = __webpack_require__(/*! ./FormInput.jsx */ 221);
 	
 	var _FormInput2 = _interopRequireDefault(_FormInput);
 	
@@ -26128,6 +25967,7 @@
 	      description: '',
 	      items: []
 	    };
+	
 	    return _this;
 	  }
 	
@@ -26293,7 +26133,296 @@
 	exports.default = NewLink;
 
 /***/ },
+/* 221 */
+/*!*********************************************!*\
+  !*** ./client/app/components/FormInput.jsx ***!
+  \*********************************************/
+/***/ function(module, exports, __webpack_require__) {
+
+	"use strict";
+	
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	
+	var _react = __webpack_require__(/*! react */ 1);
+	
+	var _react2 = _interopRequireDefault(_react);
+	
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+	
+	var FormInput = function FormInput(props) {
+	  return _react2.default.createElement(
+	    "div",
+	    { className: "panel panel-default" },
+	    _react2.default.createElement(
+	      "div",
+	      { className: "panel-body" },
+	      _react2.default.createElement(
+	        "div",
+	        { className: "form-group" },
+	        _react2.default.createElement(
+	          "label",
+	          null,
+	          "Title:"
+	        ),
+	        _react2.default.createElement("input", {
+	          className: "form-control",
+	          type: "text",
+	          value: props.item.title,
+	          onChange: props.handleItemChange.bind(undefined, props.index, 'title'),
+	          name: "title" })
+	      ),
+	      _react2.default.createElement(
+	        "div",
+	        { className: "form-group" },
+	        _react2.default.createElement(
+	          "label",
+	          null,
+	          "Description:"
+	        ),
+	        _react2.default.createElement("input", {
+	          className: "form-control",
+	          type: "text",
+	          value: props.item.description,
+	          onChange: props.handleItemChange.bind(undefined, props.index, 'description'),
+	          name: "title" })
+	      ),
+	      _react2.default.createElement(
+	        "div",
+	        { className: "form-group" },
+	        _react2.default.createElement(
+	          "label",
+	          null,
+	          "Url:"
+	        ),
+	        _react2.default.createElement("input", {
+	          className: "form-control",
+	          type: "text",
+	          value: props.item.url,
+	          onChange: props.handleItemChange.bind(undefined, props.index, 'url'),
+	          name: "title" })
+	      )
+	    )
+	  );
+	};
+	
+	// In the ES6 spec, files are "modules" and do not share a top-level scope
+	// `var` declarations will only exist globally where explicitly defined
+	exports.default = FormInput;
+
+/***/ },
+/* 222 */
+/*!**********************************************!*\
+  !*** ./client/app/components/SingleList.jsx ***!
+  \**********************************************/
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+	
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	
+	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+	
+	var _react = __webpack_require__(/*! react */ 1);
+	
+	var _react2 = _interopRequireDefault(_react);
+	
+	var _reactRouter = __webpack_require__(/*! react-router */ 159);
+	
+	var _ItemList = __webpack_require__(/*! ./ItemList.jsx */ 223);
+	
+	var _ItemList2 = _interopRequireDefault(_ItemList);
+	
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+	
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+	
+	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+	
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+	
+	var SingleList = function (_React$Component) {
+	  _inherits(SingleList, _React$Component);
+	
+	  function SingleList(props) {
+	    _classCallCheck(this, SingleList);
+	
+	    return _possibleConstructorReturn(this, (SingleList.__proto__ || Object.getPrototypeOf(SingleList)).call(this, props));
+	  }
+	
+	  _createClass(SingleList, [{
+	    key: 'render',
+	    value: function render() {
+	      return _react2.default.createElement(
+	        'div',
+	        { className: 'single-list-item panel panel-default' },
+	        _react2.default.createElement(
+	          'div',
+	          { className: 'panel-heading' },
+	          _react2.default.createElement(
+	            'h1',
+	            null,
+	            _react2.default.createElement(
+	              _reactRouter.Link,
+	              { to: '/list/' + this.props.listItem._id },
+	              this.props.listItem.title
+	            )
+	          ),
+	          _react2.default.createElement(
+	            'p',
+	            null,
+	            _react2.default.createElement(
+	              _reactRouter.Link,
+	              { to: '/user/' + this.props.listItem.id },
+	              _react2.default.createElement(
+	                'small',
+	                null,
+	                'by ',
+	                this.props.listItem.id
+	              )
+	            )
+	          )
+	        ),
+	        _react2.default.createElement(
+	          'div',
+	          { className: 'panel-body' },
+	          _react2.default.createElement(
+	            'p',
+	            { className: 'lead' },
+	            this.props.listItem.description
+	          ),
+	          this.props.listItem.items.length !== 0 ? _react2.default.createElement(_ItemList2.default, { items: this.props.listItem.items }) : null
+	        )
+	      );
+	    }
+	  }]);
+	
+	  return SingleList;
+	}(_react2.default.Component);
+	
+	// PropTypes tell other developers what `props` a component expects
+	// Warnings will be shown in the console when the defined rules are violated
+	
+	
+	SingleList.propTypes = {
+	  listItem: _react2.default.PropTypes.object.isRequired
+	};
+	
+	// In the ES6 spec, files are "modules" and do not share a top-level scope
+	// `var` declarations will only exist globally where explicitly defined
+	exports.default = SingleList;
+
+/***/ },
+/* 223 */
+/*!********************************************!*\
+  !*** ./client/app/components/ItemList.jsx ***!
+  \********************************************/
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+	
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	
+	var _react = __webpack_require__(/*! react */ 1);
+	
+	var _react2 = _interopRequireDefault(_react);
+	
+	var _SingleItem = __webpack_require__(/*! ./SingleItem.jsx */ 224);
+	
+	var _SingleItem2 = _interopRequireDefault(_SingleItem);
+	
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+	
+	var SingleList = function SingleList(props) {
+	  return _react2.default.createElement(
+	    'div',
+	    { className: 'single-list-item' },
+	    _react2.default.createElement(
+	      'ul',
+	      { className: 'list-group' },
+	      props.items.map(function (item) {
+	        return _react2.default.createElement(_SingleItem2.default, { item: item });
+	      })
+	    )
+	  );
+	};
+	
+	// PropTypes tell other developers what `props` a component expects
+	// Warnings will be shown in the console when the defined rules are violated
+	SingleList.propTypes = {
+	  listItem: _react2.default.PropTypes.object.isRequired
+	};
+	
+	// In the ES6 spec, files are "modules" and do not share a top-level scope
+	// `var` declarations will only exist globally where explicitly defined
+	exports.default = SingleList;
+
+/***/ },
 /* 224 */
+/*!**********************************************!*\
+  !*** ./client/app/components/SingleItem.jsx ***!
+  \**********************************************/
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+	
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	
+	var _react = __webpack_require__(/*! react */ 1);
+	
+	var _react2 = _interopRequireDefault(_react);
+	
+	var _reactRouter = __webpack_require__(/*! react-router */ 159);
+	
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+	
+	var SingleItem = function SingleItem(props) {
+	  return _react2.default.createElement(
+	    'a',
+	    { href: props.item.url, className: 'single-item list-group-item' },
+	    _react2.default.createElement(
+	      'p',
+	      { className: 'text-primary' },
+	      props.item.title
+	    ),
+	    _react2.default.createElement(
+	      'p',
+	      null,
+	      _react2.default.createElement(
+	        'small',
+	        null,
+	        '(',
+	        props.item.url,
+	        ')'
+	      )
+	    ),
+	    _react2.default.createElement(
+	      'p',
+	      null,
+	      props.item.description
+	    )
+	  );
+	};
+	
+	// PropTypes tell other developers what `props` a component expects
+	// Warnings will be shown in the console when the defined rules are violated
+	SingleItem.propTypes = {
+	  listItem: _react2.default.PropTypes.object
+	};
+	
+	// In the ES6 spec, files are "modules" and do not share a top-level scope
+	// `var` declarations will only exist globally where explicitly defined
+	exports.default = SingleItem;
+
+/***/ },
+/* 225 */
 /*!********************************************!*\
   !*** ./client/app/components/EditList.jsx ***!
   \********************************************/
@@ -26313,7 +26442,7 @@
 	
 	var _reactRouter = __webpack_require__(/*! react-router */ 159);
 	
-	var _FormInput = __webpack_require__(/*! ./FormInput.jsx */ 225);
+	var _FormInput = __webpack_require__(/*! ./FormInput.jsx */ 221);
 	
 	var _FormInput2 = _interopRequireDefault(_FormInput);
 	
@@ -26498,85 +26627,6 @@
 	exports.default = EditList;
 
 /***/ },
-/* 225 */
-/*!*********************************************!*\
-  !*** ./client/app/components/FormInput.jsx ***!
-  \*********************************************/
-/***/ function(module, exports, __webpack_require__) {
-
-	"use strict";
-	
-	Object.defineProperty(exports, "__esModule", {
-	  value: true
-	});
-	
-	var _react = __webpack_require__(/*! react */ 1);
-	
-	var _react2 = _interopRequireDefault(_react);
-	
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-	
-	var FormInput = function FormInput(props) {
-	  return _react2.default.createElement(
-	    "div",
-	    { className: "panel panel-default" },
-	    _react2.default.createElement(
-	      "div",
-	      { className: "panel-body" },
-	      _react2.default.createElement(
-	        "div",
-	        { className: "form-group" },
-	        _react2.default.createElement(
-	          "label",
-	          null,
-	          "Title:"
-	        ),
-	        _react2.default.createElement("input", {
-	          className: "form-control",
-	          type: "text",
-	          value: props.item.title,
-	          onChange: props.handleItemChange.bind(undefined, props.index, 'title'),
-	          name: "title" })
-	      ),
-	      _react2.default.createElement(
-	        "div",
-	        { className: "form-group" },
-	        _react2.default.createElement(
-	          "label",
-	          null,
-	          "Description:"
-	        ),
-	        _react2.default.createElement("input", {
-	          className: "form-control",
-	          type: "text",
-	          value: props.item.description,
-	          onChange: props.handleItemChange.bind(undefined, props.index, 'description'),
-	          name: "title" })
-	      ),
-	      _react2.default.createElement(
-	        "div",
-	        { className: "form-group" },
-	        _react2.default.createElement(
-	          "label",
-	          null,
-	          "Url:"
-	        ),
-	        _react2.default.createElement("input", {
-	          className: "form-control",
-	          type: "text",
-	          value: props.item.url,
-	          onChange: props.handleItemChange.bind(undefined, props.index, 'url'),
-	          name: "title" })
-	      )
-	    )
-	  );
-	};
-	
-	// In the ES6 spec, files are "modules" and do not share a top-level scope
-	// `var` declarations will only exist globally where explicitly defined
-	exports.default = FormInput;
-
-/***/ },
 /* 226 */
 /*!**************************************************!*\
   !*** ./client/app/components/SingleListPage.jsx ***!
@@ -26597,7 +26647,7 @@
 	
 	var _reactRouter = __webpack_require__(/*! react-router */ 159);
 	
-	var _SingleList = __webpack_require__(/*! ./SingleList.jsx */ 220);
+	var _SingleList = __webpack_require__(/*! ./SingleList.jsx */ 222);
 	
 	var _SingleList2 = _interopRequireDefault(_SingleList);
 	
@@ -26693,7 +26743,7 @@
 	
 	var _reactRouter = __webpack_require__(/*! react-router */ 159);
 	
-	var _SingleList = __webpack_require__(/*! ./SingleList.jsx */ 220);
+	var _SingleList = __webpack_require__(/*! ./SingleList.jsx */ 222);
 	
 	var _SingleList2 = _interopRequireDefault(_SingleList);
 	

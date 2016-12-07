@@ -7,12 +7,13 @@ class AllLinks extends React.Component {
     super(props);
 
     this.state = {
-      lists: []
+      lists: [],
+      stars: []
     };
 
   }
 
-  componentDidMount() {
+  componentWillMount() {
     var self = this;
     $.ajax({
       url: "/api/lists",
@@ -22,7 +23,27 @@ class AllLinks extends React.Component {
           lists: data
         })
       }
-    })
+    });
+    this.props.lock.getProfile(self.props.idToken, function (err, profile) {
+      if (err) {
+        console.log("Error loading the Profile", err);
+        return;
+      }
+      self.setState({id: profile.email, profile: profile});
+    });
+  }
+
+  handleClick(listId) {
+    // console.log('test',this,listId)
+    // var self = this;
+    // $.ajax({
+    //   url: `/api/user/${self.state.id}/stars/${listId}`,
+    //   method: "POST",
+    //   success: function(data) {
+    //     console.log('from users update', data)
+    //     this.setState((state) => ({stars: state.stars.concat([data.stars]) }));
+    //   }
+    // })
   }
 
   render() {
@@ -30,7 +51,7 @@ class AllLinks extends React.Component {
       <div>
         {this.state.lists.map( list => {
           return (
-            <SingleList listItem={list} />
+            <SingleList user={this.state.profile} handleClick={this.handleClick.bind(this)} listItem={list} />
           )
         })}
       </div>

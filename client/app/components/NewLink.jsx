@@ -13,6 +13,7 @@ class NewLink extends React.Component {
       description: '',
       items: []
     };
+
   }
 
   componentDidMount() {

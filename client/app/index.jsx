@@ -16,7 +16,7 @@ import SingleUserPage from './components/SingleUserPage.jsx';
 var checkAuth = function(nextState, replace) {
   if (!localStorage.getItem('id_token')) {
     replace({
-      pathname: '/login',
+      pathname: '/',
       state: { nextPathname: nextState.location.pathname }
     })
   }
