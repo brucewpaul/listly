@@ -78,7 +78,7 @@ class EditList extends React.Component {
     return (
       <form onSubmit={this.handleSubmit.bind(this)}>
         <div className="row">
-          <div className="col-xs-12 col-sm-6">
+          <div className="col-xs-12 col-md-6">
             <div className="form-group">
               <label>Title:</label>
               <input
@@ -99,7 +99,7 @@ class EditList extends React.Component {
             </div>
           </div>
 
-          <div className="col-xs-12 col-sm-6">
+          <div className="col-xs-12 col-md-6">
             <h3>Items:</h3>
 
             <div className="form-item-list">

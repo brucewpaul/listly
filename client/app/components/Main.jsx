@@ -18,7 +18,7 @@ class App extends React.Component {
     return (
       <div className="container">
         <div className="row">
-          <div className="col-xs-8 col-xs-offset-2">
+          <div className="col-xs-12 col-sm-10 col-sm-offset-1 col-md-8 col-md-offset-2">
             {childrenWithProps}
           </div>
         </div>

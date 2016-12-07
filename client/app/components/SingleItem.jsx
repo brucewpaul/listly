@@ -2,13 +2,11 @@ import React from 'react'
 import { Link } from 'react-router'
 
 var SingleItem = (props) => (
-  <li className="single-item">
-    <div>
-      <Link to="{props.item.url}">{props.item.title}</Link>
-      <p><small>({props.item.url})</small></p>
-      <p>{props.item.description}</p>
-      </div>
-  </li>
+  <a href={props.item.url} className="single-item list-group-item">
+    <p className="text-primary">{props.item.title}</p>
+    <p><small>({props.item.url})</small></p>
+    <p>{props.item.description}</p>
+  </a>
 );
 
 // PropTypes tell other developers what `props` a component expects

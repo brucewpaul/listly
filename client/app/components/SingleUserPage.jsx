@@ -39,7 +39,7 @@ class SingleListPage extends React.Component {
   render() {
     return (
       <div>
-        <h1>{this.state.currentUser.nickname}</h1>
+        <h2>{this.state.currentUser.nickname}'s lists</h2>
         {this.state.lists.map( list => {
           return (
             <SingleList listItem={list} />

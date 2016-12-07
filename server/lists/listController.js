@@ -10,7 +10,7 @@ module.exports = {
     })
   },
   getAll: function (req, res, next) {
-    List.find({}, function(err, lists){
+    List.find({}).sort('-_id').exec(function(err, lists){
       if ( err ) {
         next(err)
       } else {

@@ -4,11 +4,16 @@ import { Link } from 'react-router'
 import ItemList from './ItemList.jsx'
 
 var SingleList = (props) => (
-  <div className="single-list-item">
-    <h1><Link to={`/list/${props.listItem._id}`}>{props.listItem.title}</Link></h1>
-    <Link to={`/user/${props.listItem.id}`}><small>{props.listItem.id}</small></Link>
-    <p>{props.listItem.description}</p>
-    {props.listItem.items.length !== 0 ? <ItemList items={props.listItem.items} /> : null}
+  <div className="single-list-item panel panel-default">
+    <div className="panel-heading">
+
+      <h1><Link to={`/list/${props.listItem._id}`}>{props.listItem.title}</Link></h1>
+      <p><Link to={`/user/${props.listItem.id}`}><small>by {props.listItem.id}</small></Link></p>
+    </div>
+    <div className="panel-body">
+      <p className="lead">{props.listItem.description}</p>
+      {props.listItem.items.length !== 0 ? <ItemList items={props.listItem.items} /> : null}
+    </div>
   </div>
 );
 

@@ -38,8 +38,7 @@ class SingleListPage extends React.Component {
   render() {
     return (
       <div>
-        {this.state.isUserList ? (<Link to={`/list/${this.props.params.id}/edit`}>Edit list</Link>) : null }
-
+        {this.state.isUserList ? (<p><Link to={`/list/${this.props.params.id}/edit`}>Edit list</Link></p>) : null }
         {this.state.currentList !== null ? <SingleList listItem={this.state.currentList} /> : null}
       </div>
     )

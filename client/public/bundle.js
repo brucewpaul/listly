@@ -65,11 +65,11 @@
 	
 	var _App2 = _interopRequireDefault(_App);
 	
-	var _Login = __webpack_require__(/*! ./components/Login.jsx */ 227);
+	var _Login = __webpack_require__(/*! ./components/Login.jsx */ 218);
 	
 	var _Login2 = _interopRequireDefault(_Login);
 	
-	var _AllLinks = __webpack_require__(/*! ./components/AllLinks.jsx */ 218);
+	var _AllLinks = __webpack_require__(/*! ./components/AllLinks.jsx */ 219);
 	
 	var _AllLinks2 = _interopRequireDefault(_AllLinks);
 	
@@ -77,11 +77,11 @@
 	
 	var _NewLink2 = _interopRequireDefault(_NewLink);
 	
-	var _SingleList = __webpack_require__(/*! ./components/SingleList.jsx */ 219);
+	var _SingleList = __webpack_require__(/*! ./components/SingleList.jsx */ 220);
 	
 	var _SingleList2 = _interopRequireDefault(_SingleList);
 	
-	var _EditList = __webpack_require__(/*! ./components/EditList.jsx */ 225);
+	var _EditList = __webpack_require__(/*! ./components/EditList.jsx */ 224);
 	
 	var _EditList2 = _interopRequireDefault(_EditList);
 	
@@ -89,7 +89,7 @@
 	
 	var _SingleListPage2 = _interopRequireDefault(_SingleListPage);
 	
-	var _SingleUserPage = __webpack_require__(/*! ./components/SingleUserPage.jsx */ 228);
+	var _SingleUserPage = __webpack_require__(/*! ./components/SingleUserPage.jsx */ 227);
 	
 	var _SingleUserPage2 = _interopRequireDefault(_SingleUserPage);
 	
@@ -25509,7 +25509,7 @@
 	          { className: 'row' },
 	          _react2.default.createElement(
 	            'div',
-	            { className: 'col-xs-8 col-xs-offset-2' },
+	            { className: 'col-xs-12 col-sm-10 col-sm-offset-1 col-md-8 col-md-offset-2' },
 	            childrenWithProps
 	          )
 	        )
@@ -25745,6 +25745,78 @@
 
 /***/ },
 /* 218 */
+/*!*****************************************!*\
+  !*** ./client/app/components/Login.jsx ***!
+  \*****************************************/
+/***/ function(module, exports, __webpack_require__) {
+
+	"use strict";
+	
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	
+	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+	
+	var _react = __webpack_require__(/*! react */ 1);
+	
+	var _react2 = _interopRequireDefault(_react);
+	
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+	
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+	
+	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+	
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+	
+	var Login = function (_React$Component) {
+	  _inherits(Login, _React$Component);
+	
+	  function Login(props) {
+	    _classCallCheck(this, Login);
+	
+	    return _possibleConstructorReturn(this, (Login.__proto__ || Object.getPrototypeOf(Login)).call(this, props));
+	    // console.log('in head', this)
+	  }
+	
+	  _createClass(Login, [{
+	    key: "showLock",
+	    value: function showLock() {
+	      // Show the Auth0Lock widget
+	      this.props.lock.show();
+	    }
+	  }, {
+	    key: "render",
+	    value: function render() {
+	      return _react2.default.createElement(
+	        "div",
+	        { className: "text-center panel panel-default" },
+	        _react2.default.createElement(
+	          "div",
+	          { className: "panel-body" },
+	          _react2.default.createElement(
+	            "p",
+	            { className: "lead" },
+	            "You need to log in to do that first"
+	          ),
+	          _react2.default.createElement(
+	            "a",
+	            { onClick: this.showLock.bind(this), className: "btn btn-success btn-lg" },
+	            "Login"
+	          )
+	        )
+	      );
+	    }
+	  }]);
+	
+	  return Login;
+	}(_react2.default.Component);
+	
+	exports.default = Login;
+
+/***/ },
+/* 219 */
 /*!********************************************!*\
   !*** ./client/app/components/AllLinks.jsx ***!
   \********************************************/
@@ -25762,7 +25834,7 @@
 	
 	var _react2 = _interopRequireDefault(_react);
 	
-	var _SingleList = __webpack_require__(/*! ./SingleList.jsx */ 219);
+	var _SingleList = __webpack_require__(/*! ./SingleList.jsx */ 220);
 	
 	var _SingleList2 = _interopRequireDefault(_SingleList);
 	
@@ -25822,7 +25894,7 @@
 	exports.default = AllLinks;
 
 /***/ },
-/* 219 */
+/* 220 */
 /*!**********************************************!*\
   !*** ./client/app/components/SingleList.jsx ***!
   \**********************************************/
@@ -25840,7 +25912,7 @@
 	
 	var _reactRouter = __webpack_require__(/*! react-router */ 159);
 	
-	var _ItemList = __webpack_require__(/*! ./ItemList.jsx */ 220);
+	var _ItemList = __webpack_require__(/*! ./ItemList.jsx */ 221);
 	
 	var _ItemList2 = _interopRequireDefault(_ItemList);
 	
@@ -25849,31 +25921,44 @@
 	var SingleList = function SingleList(props) {
 	  return _react2.default.createElement(
 	    'div',
-	    { className: 'single-list-item' },
+	    { className: 'single-list-item panel panel-default' },
 	    _react2.default.createElement(
-	      'h1',
-	      null,
+	      'div',
+	      { className: 'panel-heading' },
 	      _react2.default.createElement(
-	        _reactRouter.Link,
-	        { to: '/list/' + props.listItem._id },
-	        props.listItem.title
-	      )
-	    ),
-	    _react2.default.createElement(
-	      _reactRouter.Link,
-	      { to: '/user/' + props.listItem.id },
-	      _react2.default.createElement(
-	        'small',
+	        'h1',
 	        null,
-	        props.listItem.id
+	        _react2.default.createElement(
+	          _reactRouter.Link,
+	          { to: '/list/' + props.listItem._id },
+	          props.listItem.title
+	        )
+	      ),
+	      _react2.default.createElement(
+	        'p',
+	        null,
+	        _react2.default.createElement(
+	          _reactRouter.Link,
+	          { to: '/user/' + props.listItem.id },
+	          _react2.default.createElement(
+	            'small',
+	            null,
+	            'by ',
+	            props.listItem.id
+	          )
+	        )
 	      )
 	    ),
 	    _react2.default.createElement(
-	      'p',
-	      null,
-	      props.listItem.description
-	    ),
-	    props.listItem.items.length !== 0 ? _react2.default.createElement(_ItemList2.default, { items: props.listItem.items }) : null
+	      'div',
+	      { className: 'panel-body' },
+	      _react2.default.createElement(
+	        'p',
+	        { className: 'lead' },
+	        props.listItem.description
+	      ),
+	      props.listItem.items.length !== 0 ? _react2.default.createElement(_ItemList2.default, { items: props.listItem.items }) : null
+	    )
 	  );
 	};
 	
@@ -25888,7 +25973,7 @@
 	exports.default = SingleList;
 
 /***/ },
-/* 220 */
+/* 221 */
 /*!********************************************!*\
   !*** ./client/app/components/ItemList.jsx ***!
   \********************************************/
@@ -25904,7 +25989,7 @@
 	
 	var _react2 = _interopRequireDefault(_react);
 	
-	var _SingleItem = __webpack_require__(/*! ./SingleItem.jsx */ 221);
+	var _SingleItem = __webpack_require__(/*! ./SingleItem.jsx */ 222);
 	
 	var _SingleItem2 = _interopRequireDefault(_SingleItem);
 	
@@ -25915,13 +26000,8 @@
 	    'div',
 	    { className: 'single-list-item' },
 	    _react2.default.createElement(
-	      'h4',
-	      null,
-	      'Items:'
-	    ),
-	    _react2.default.createElement(
-	      'ol',
-	      null,
+	      'ul',
+	      { className: 'list-group' },
 	      props.items.map(function (item) {
 	        return _react2.default.createElement(_SingleItem2.default, { item: item });
 	      })
@@ -25940,7 +26020,7 @@
 	exports.default = SingleList;
 
 /***/ },
-/* 221 */
+/* 222 */
 /*!**********************************************!*\
   !*** ./client/app/components/SingleItem.jsx ***!
   \**********************************************/
@@ -25962,32 +26042,28 @@
 	
 	var SingleItem = function SingleItem(props) {
 	  return _react2.default.createElement(
-	    'li',
-	    { className: 'single-item' },
+	    'a',
+	    { href: props.item.url, className: 'single-item list-group-item' },
 	    _react2.default.createElement(
-	      'div',
+	      'p',
+	      { className: 'text-primary' },
+	      props.item.title
+	    ),
+	    _react2.default.createElement(
+	      'p',
 	      null,
 	      _react2.default.createElement(
-	        _reactRouter.Link,
-	        { to: '{props.item.url}' },
-	        props.item.title
-	      ),
-	      _react2.default.createElement(
-	        'p',
+	        'small',
 	        null,
-	        _react2.default.createElement(
-	          'small',
-	          null,
-	          '(',
-	          props.item.url,
-	          ')'
-	        )
-	      ),
-	      _react2.default.createElement(
-	        'p',
-	        null,
-	        props.item.description
+	        '(',
+	        props.item.url,
+	        ')'
 	      )
+	    ),
+	    _react2.default.createElement(
+	      'p',
+	      null,
+	      props.item.description
 	    )
 	  );
 	};
@@ -26003,7 +26079,6 @@
 	exports.default = SingleItem;
 
 /***/ },
-/* 222 */,
 /* 223 */
 /*!*******************************************!*\
   !*** ./client/app/components/NewLink.jsx ***!
@@ -26028,7 +26103,7 @@
 	
 	var _Header2 = _interopRequireDefault(_Header);
 	
-	var _FormInput = __webpack_require__(/*! ./FormInput.jsx */ 224);
+	var _FormInput = __webpack_require__(/*! ./FormInput.jsx */ 225);
 	
 	var _FormInput2 = _interopRequireDefault(_FormInput);
 	
@@ -26079,11 +26154,19 @@
 	      }.bind(this));
 	    }
 	  }, {
+	    key: 'checkForm',
+	    value: function checkForm() {
+	      if (this.state.title && this.state.description) {
+	        this.setState({ isValid: true });
+	      }
+	    }
+	  }, {
 	    key: 'handleChange',
 	    value: function handleChange(name, event) {
 	      var stateChange = {};
 	      stateChange[name] = event.target.value;
 	      this.setState(stateChange);
+	      this.checkForm();
 	    }
 	  }, {
 	    key: 'handleItemChange',
@@ -26104,7 +26187,7 @@
 	        data: self.state
 	      }).done(function (data) {
 	        console.log(data);
-	        // browserHistory.push(`/list/${data._id}`);
+	        _reactRouter.browserHistory.push('/list/' + data._id);
 	      }).fail(function (err) {
 	        console.log('an error has occured :', err);
 	      });
@@ -26134,7 +26217,7 @@
 	          { className: 'row' },
 	          _react2.default.createElement(
 	            'div',
-	            { className: 'col-xs-12 col-sm-6' },
+	            { className: 'col-xs-12 col-md-6' },
 	            _react2.default.createElement(
 	              'div',
 	              { className: 'form-group' },
@@ -26148,7 +26231,8 @@
 	                type: 'text',
 	                value: this.state.title,
 	                onChange: this.handleChange.bind(this, 'title'),
-	                name: 'title' })
+	                name: 'title',
+	                required: true })
 	            ),
 	            _react2.default.createElement(
 	              'div',
@@ -26163,12 +26247,13 @@
 	                type: 'text',
 	                value: this.state.description,
 	                onChange: this.handleChange.bind(this, 'description'),
-	                name: 'description' })
+	                name: 'description',
+	                required: true })
 	            )
 	          ),
 	          _react2.default.createElement(
 	            'div',
-	            { className: 'col-xs-12 col-sm-6' },
+	            { className: 'col-xs-12 col-md-6' },
 	            _react2.default.createElement(
 	              'h3',
 	              null,
@@ -26183,18 +26268,19 @@
 	            ),
 	            _react2.default.createElement(
 	              'a',
-	              { onClick: this.handleAddItem.bind(this), className: 'btn btn-primary' },
+	              { onClick: this.handleAddItem.bind(this), className: 'btn btn-primary btn-block' },
 	              'Add Item'
 	            )
 	          )
 	        ),
+	        _react2.default.createElement('br', null),
 	        _react2.default.createElement(
 	          'div',
-	          { className: 'row text-center' },
+	          { className: 'row' },
 	          _react2.default.createElement(
 	            'div',
-	            { className: 'col-sx-12' },
-	            _react2.default.createElement('input', { type: 'submit', value: 'Submit', className: 'btn btn-success btn-lg' })
+	            { className: 'col-xs-12' },
+	            _react2.default.createElement('input', { type: 'submit', value: 'Submit', className: 'btn btn-block btn-success btn-lg', disabled: !this.state.isValid })
 	          )
 	        )
 	      );
@@ -26208,85 +26294,6 @@
 
 /***/ },
 /* 224 */
-/*!*********************************************!*\
-  !*** ./client/app/components/FormInput.jsx ***!
-  \*********************************************/
-/***/ function(module, exports, __webpack_require__) {
-
-	"use strict";
-	
-	Object.defineProperty(exports, "__esModule", {
-	  value: true
-	});
-	
-	var _react = __webpack_require__(/*! react */ 1);
-	
-	var _react2 = _interopRequireDefault(_react);
-	
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-	
-	var FormInput = function FormInput(props) {
-	  return _react2.default.createElement(
-	    "div",
-	    { className: "panel panel-default" },
-	    _react2.default.createElement(
-	      "div",
-	      { className: "panel-body" },
-	      _react2.default.createElement(
-	        "div",
-	        { className: "form-group" },
-	        _react2.default.createElement(
-	          "label",
-	          null,
-	          "Title:"
-	        ),
-	        _react2.default.createElement("input", {
-	          className: "form-control",
-	          type: "text",
-	          value: props.item.title,
-	          onChange: props.handleItemChange.bind(undefined, props.index, 'title'),
-	          name: "title" })
-	      ),
-	      _react2.default.createElement(
-	        "div",
-	        { className: "form-group" },
-	        _react2.default.createElement(
-	          "label",
-	          null,
-	          "Description:"
-	        ),
-	        _react2.default.createElement("input", {
-	          className: "form-control",
-	          type: "text",
-	          value: props.item.description,
-	          onChange: props.handleItemChange.bind(undefined, props.index, 'description'),
-	          name: "title" })
-	      ),
-	      _react2.default.createElement(
-	        "div",
-	        { className: "form-group" },
-	        _react2.default.createElement(
-	          "label",
-	          null,
-	          "Url:"
-	        ),
-	        _react2.default.createElement("input", {
-	          className: "form-control",
-	          type: "text",
-	          value: props.item.url,
-	          onChange: props.handleItemChange.bind(undefined, props.index, 'url'),
-	          name: "title" })
-	      )
-	    )
-	  );
-	};
-	
-	// In the ES6 spec, files are "modules" and do not share a top-level scope
-	// `var` declarations will only exist globally where explicitly defined
-	exports.default = FormInput;
-
-/***/ },
-/* 225 */
 /*!********************************************!*\
   !*** ./client/app/components/EditList.jsx ***!
   \********************************************/
@@ -26306,7 +26313,7 @@
 	
 	var _reactRouter = __webpack_require__(/*! react-router */ 159);
 	
-	var _FormInput = __webpack_require__(/*! ./FormInput.jsx */ 224);
+	var _FormInput = __webpack_require__(/*! ./FormInput.jsx */ 225);
 	
 	var _FormInput2 = _interopRequireDefault(_FormInput);
 	
@@ -26415,7 +26422,7 @@
 	          { className: 'row' },
 	          _react2.default.createElement(
 	            'div',
-	            { className: 'col-xs-12 col-sm-6' },
+	            { className: 'col-xs-12 col-md-6' },
 	            _react2.default.createElement(
 	              'div',
 	              { className: 'form-group' },
@@ -26449,7 +26456,7 @@
 	          ),
 	          _react2.default.createElement(
 	            'div',
-	            { className: 'col-xs-12 col-sm-6' },
+	            { className: 'col-xs-12 col-md-6' },
 	            _react2.default.createElement(
 	              'h3',
 	              null,
@@ -26491,6 +26498,85 @@
 	exports.default = EditList;
 
 /***/ },
+/* 225 */
+/*!*********************************************!*\
+  !*** ./client/app/components/FormInput.jsx ***!
+  \*********************************************/
+/***/ function(module, exports, __webpack_require__) {
+
+	"use strict";
+	
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	
+	var _react = __webpack_require__(/*! react */ 1);
+	
+	var _react2 = _interopRequireDefault(_react);
+	
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+	
+	var FormInput = function FormInput(props) {
+	  return _react2.default.createElement(
+	    "div",
+	    { className: "panel panel-default" },
+	    _react2.default.createElement(
+	      "div",
+	      { className: "panel-body" },
+	      _react2.default.createElement(
+	        "div",
+	        { className: "form-group" },
+	        _react2.default.createElement(
+	          "label",
+	          null,
+	          "Title:"
+	        ),
+	        _react2.default.createElement("input", {
+	          className: "form-control",
+	          type: "text",
+	          value: props.item.title,
+	          onChange: props.handleItemChange.bind(undefined, props.index, 'title'),
+	          name: "title" })
+	      ),
+	      _react2.default.createElement(
+	        "div",
+	        { className: "form-group" },
+	        _react2.default.createElement(
+	          "label",
+	          null,
+	          "Description:"
+	        ),
+	        _react2.default.createElement("input", {
+	          className: "form-control",
+	          type: "text",
+	          value: props.item.description,
+	          onChange: props.handleItemChange.bind(undefined, props.index, 'description'),
+	          name: "title" })
+	      ),
+	      _react2.default.createElement(
+	        "div",
+	        { className: "form-group" },
+	        _react2.default.createElement(
+	          "label",
+	          null,
+	          "Url:"
+	        ),
+	        _react2.default.createElement("input", {
+	          className: "form-control",
+	          type: "text",
+	          value: props.item.url,
+	          onChange: props.handleItemChange.bind(undefined, props.index, 'url'),
+	          name: "title" })
+	      )
+	    )
+	  );
+	};
+	
+	// In the ES6 spec, files are "modules" and do not share a top-level scope
+	// `var` declarations will only exist globally where explicitly defined
+	exports.default = FormInput;
+
+/***/ },
 /* 226 */
 /*!**************************************************!*\
   !*** ./client/app/components/SingleListPage.jsx ***!
@@ -26511,7 +26597,7 @@
 	
 	var _reactRouter = __webpack_require__(/*! react-router */ 159);
 	
-	var _SingleList = __webpack_require__(/*! ./SingleList.jsx */ 219);
+	var _SingleList = __webpack_require__(/*! ./SingleList.jsx */ 220);
 	
 	var _SingleList2 = _interopRequireDefault(_SingleList);
 	
@@ -26568,9 +26654,13 @@
 	        'div',
 	        null,
 	        this.state.isUserList ? _react2.default.createElement(
-	          _reactRouter.Link,
-	          { to: '/list/' + this.props.params.id + '/edit' },
-	          'Edit list'
+	          'p',
+	          null,
+	          _react2.default.createElement(
+	            _reactRouter.Link,
+	            { to: '/list/' + this.props.params.id + '/edit' },
+	            'Edit list'
+	          )
 	        ) : null,
 	        this.state.currentList !== null ? _react2.default.createElement(_SingleList2.default, { listItem: this.state.currentList }) : null
 	      );
@@ -26584,78 +26674,6 @@
 
 /***/ },
 /* 227 */
-/*!*****************************************!*\
-  !*** ./client/app/components/Login.jsx ***!
-  \*****************************************/
-/***/ function(module, exports, __webpack_require__) {
-
-	"use strict";
-	
-	Object.defineProperty(exports, "__esModule", {
-	  value: true
-	});
-	
-	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-	
-	var _react = __webpack_require__(/*! react */ 1);
-	
-	var _react2 = _interopRequireDefault(_react);
-	
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-	
-	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-	
-	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
-	
-	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
-	
-	var Login = function (_React$Component) {
-	  _inherits(Login, _React$Component);
-	
-	  function Login(props) {
-	    _classCallCheck(this, Login);
-	
-	    return _possibleConstructorReturn(this, (Login.__proto__ || Object.getPrototypeOf(Login)).call(this, props));
-	    // console.log('in head', this)
-	  }
-	
-	  _createClass(Login, [{
-	    key: "showLock",
-	    value: function showLock() {
-	      // Show the Auth0Lock widget
-	      this.props.lock.show();
-	    }
-	  }, {
-	    key: "render",
-	    value: function render() {
-	      return _react2.default.createElement(
-	        "div",
-	        { className: "text-center panel panel-default" },
-	        _react2.default.createElement(
-	          "div",
-	          { className: "panel-body" },
-	          _react2.default.createElement(
-	            "p",
-	            { className: "lead" },
-	            "You need to log in to do that first"
-	          ),
-	          _react2.default.createElement(
-	            "a",
-	            { onClick: this.showLock.bind(this), className: "btn btn-success btn-lg" },
-	            "Login"
-	          )
-	        )
-	      );
-	    }
-	  }]);
-	
-	  return Login;
-	}(_react2.default.Component);
-	
-	exports.default = Login;
-
-/***/ },
-/* 228 */
 /*!**************************************************!*\
   !*** ./client/app/components/SingleUserPage.jsx ***!
   \**************************************************/
@@ -26675,7 +26693,7 @@
 	
 	var _reactRouter = __webpack_require__(/*! react-router */ 159);
 	
-	var _SingleList = __webpack_require__(/*! ./SingleList.jsx */ 219);
+	var _SingleList = __webpack_require__(/*! ./SingleList.jsx */ 220);
 	
 	var _SingleList2 = _interopRequireDefault(_SingleList);
 	
@@ -26733,9 +26751,10 @@
 	        'div',
 	        null,
 	        _react2.default.createElement(
-	          'h1',
+	          'h2',
 	          null,
-	          this.state.currentUser.nickname
+	          this.state.currentUser.nickname,
+	          '\'s lists'
 	        ),
 	        this.state.lists.map(function (list) {
 	          return _react2.default.createElement(_SingleList2.default, { listItem: list });
