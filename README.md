@@ -1,2 +1,3 @@
-#mvp
-This is a project I completed as a student at [hackreactor](http://hackreactor.com). This project was worked on with a pair.
+#listly
+
+Listly is an application that allows you create different lists of items that you want to share with other people.
